@@ -1,9 +1,10 @@
-If you want to allow /usr/sbin/vsftpd to be able to write to shared public content
-Then you need to change the label on /var/ftp/pub to public_content_rw_t, and potentially turn on the allow_httpd_sys_script_anon_write boolean.
-Do
-# semanage fcontext -a -t public_content_rw_t /var/ftp/pub
-# restorecon -R -v /var/ftp/pub
-# setsebool -P allow_ftpd_anon_write 1
+# If you want to allow /usr/sbin/vsftpd to be able to write to
+# shared public content, then you need to change the label on
+# /var/ftp/pub to public_content_rw_t, and potentially turn on
+# the allow_httpd_sys_script_anon_write boolean.
+semanage fcontext -a -t public_content_rw_t /var/ftp/pub
+restorecon -R -v /var/ftp/pub
+setsebool -P allow_ftpd_anon_write 1
  
 # Restrict ftps to a small set of ports
 pasv_min_port=21000
@@ -23,5 +24,5 @@ require_ssl_reuse=NO
 ssl_ciphers=HIGH
 
 # don't verify certificate
-$ cat ~/.lftp/rc
+cat ~/.lftp/rc
 set ssl:verify-certificate no
