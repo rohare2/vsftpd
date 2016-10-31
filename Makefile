@@ -3,15 +3,26 @@
 #
 DIR= /etc/vsftpd
 
+DATA_DIR= /var/ftp
+
 FILES=	vsftpd.conf
+
+DATA1= README
+DATA2= README.pub
 
 INST= /usr/bin/install
 
-all: $(FILES)
+all: $(FILES) $(DATA1) $(DATA2)
 
 install: uid_chk all
 	@for file in ${FILES}; do \
 		${INST} -p $$file ${DIR} -o root -g root -m 600; \
+	done
+	@for file in ${DATA1}; do \
+		${INST} -p $$file ${DATA_DIR} -o root -g root -m 644; \
+	done
+	@for file in ${DATA2}; do \
+		${INST} -p $$file ${DATA_DIR}/pub -o root -g root -m 644; \
 	done
 
 uid_chk:
